@@ -1,0 +1,8 @@
+{
+  "editor.tabSize": 4
+  // "editor.defaultFormatter": "rust-lang.rust",
+  // "[rust]": {
+  //   "editor.formatOnSave": true,
+  // }
+  // https://dev.to/cthutu/rust-1-creating-your-development-environment-55bi
+}
