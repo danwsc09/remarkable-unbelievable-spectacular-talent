@@ -78,4 +78,47 @@ fn main() {
     for z in 1..10 {
         println!("FOR : {}", z);
     }
+
+    let rand_string = "I am a random string";
+    let (first, second) = rand_string.split_at(6);
+    println!("Length of {}: {}", rand_string, rand_string.len());
+    println!("{}/{}", first, second);
+
+    let count = rand_string.chars().count();
+    let mut chars = rand_string.chars();
+    let mut indiv_char = chars.next();
+
+    loop {
+        match indiv_char {
+            Some(x) => println!("{}", x),
+            None => break,
+        }
+        indiv_char = chars.next();
+    }
+
+    let mut iter = rand_string.split_whitespace();
+    let mut indiv_word = iter.next();
+
+    loop {
+        match indiv_word {
+            Some(x) => println!("{}", x),
+            None => break,
+        }
+        indiv_word = iter.next();
+    }
+
+    let rand_string2 =
+        "I am a random string\nThere are other strings like it\nThis string is the best";
+    let mut lines = rand_string2.lines();
+    let mut indiv_line = lines.next();
+
+    loop {
+        match indiv_line {
+            Some(x) => println!("line:{}", x),
+            None => break,
+        }
+        indiv_line = lines.next();
+    }
+
+    println!("Find Best : {}", rand_string2.contains("Best"));
 }
