@@ -54,4 +54,28 @@ fn main() {
 
     let can_vote = if (age_old >= 18) { true } else { false };
     println!("can vote: {}", can_vote);
+
+    let mut x = 1;
+    loop {
+        if (x % 2 == 0) {
+            println!("{} is even", x);
+            x += 1;
+
+            continue;
+        }
+        if (x > 10) {
+            break;
+        }
+        x += 1;
+    }
+
+    let mut y = 1;
+    while y <= 4 {
+        println!("{}", y);
+        y += 1;
+    }
+
+    for z in 1..10 {
+        println!("FOR : {}", z);
+    }
 }
