@@ -36,4 +36,22 @@ fn main() {
     let mut pos_5: i32 = 5;
     println!("5 ^ 3 = {}", pos_5.pow(3)); // .sqrt, .cbrt, .round, .floor, .ceil, .exp, .ln, .log10, to_radians, to_degrees, max, min, sin
     println!("3.14 to deg = {}", 3.14f64.to_degrees());
+
+    // conditionals
+    let age_old = 20;
+    if age_old == 5 {
+        println!("Go to Kindergarten");
+    } else if (age_old > 5) && (age_old <= 18) {
+        println!("Go to grade {}", age_old - 5);
+    } else if (age_old <= 25) && (age_old > 18) {
+        println!("Go to college");
+    } else {
+        println!("Do what you want.");
+    }
+
+    println!("!true = {}", !true);
+    println!("true || false = {}", true || false);
+
+    let can_vote = if (age_old >= 18) { true } else { false };
+    println!("can vote: {}", can_vote);
 }
