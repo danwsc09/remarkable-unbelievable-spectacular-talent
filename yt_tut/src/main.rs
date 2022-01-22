@@ -121,27 +121,42 @@ fn main() {
     }
 
     println!("Find Best : {}", rand_string2.contains("Best"));
+    /*
+        'outer: loop {
+            let number: i32 = 10;
+            println!("Pick a Number");
 
-    'outer: loop {
-        let number: i32 = 10;
-        println!("Pick a Number");
+            loop {
+                let mut line = String::new();
+                let input = stdin().read_line(&mut line);
 
-        loop {
-            let mut line = String::new();
-            let input = stdin().read_line(&mut line);
+                let guess: Option<i32> = input.ok().map_or(None, |_| line.trim().parse().ok());
 
-            let guess: Option<i32> = input.ok().map_or(None, |_| line.trim().parse().ok());
-
-            match guess {
-                None => println!("Enter a Number"),
-                Some(n) if n == number => {
-                    println!("You Guessed It!");
-                    break 'outer;
+                match guess {
+                    None => println!("Enter a Number"),
+                    Some(n) if n == number => {
+                        println!("You Guessed It!");
+                        break 'outer;
+                    }
+                    Some(n) if n < number => println!("Too Low"),
+                    Some(n) if n > number => println!("Too High"),
+                    Some(_) => println!("Error"),
                 }
-                Some(n) if n < number => println!("Too Low"),
-                Some(n) if n > number => println!("Too High"),
-                Some(_) => println!("Error"),
             }
         }
+    */
+    let rand_array = [1, 2, 3];
+    println!("{}, {}", rand_array[0], rand_array[1]);
+    println!("{}", rand_array.len());
+    println!("Second 2: {:?}", &rand_array[1..3]);
+
+    let mut vect1 = vec![1, 2, 3, 4, 5];
+    println!("Item 2: {}", vect1[1]);
+    for i in &vect1 {
+        println!("Vect: {}", i);
     }
+
+    vect1.push(6);
+    vect1.push(7);
+    vect1.pop();
 }
