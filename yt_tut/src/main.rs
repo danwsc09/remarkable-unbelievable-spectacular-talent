@@ -159,4 +159,9 @@ fn main() {
     vect1.push(6);
     vect1.push(7);
     vect1.pop();
+
+    let rand_tuple = ("Ben", 55);
+    let rand_tuple_2: (&str, i8) = ("Ben", 55);
+    println!("Name : {}", rand_tuple_2.0);
+    println!("Age : {}", rand_tuple_2.1);
 }
