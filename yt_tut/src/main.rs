@@ -164,4 +164,128 @@ fn main() {
     let rand_tuple_2: (&str, i8) = ("Ben", 55);
     println!("Name : {}", rand_tuple_2.0);
     println!("Age : {}", rand_tuple_2.1);
+
+    say_hello("Benjamin");
+    println!("5 + 4 = {} ", get_sum(5, 4));
+
+    let sum = get_sum;
+    println!("6 + 4 = {}", sum(6, 4));
+
+    let sum_nums = |x: i32, y: i32| x + y;
+    println!("7 + 8 = {}", sum_nums(7, 8));
+
+    let num_ten = 10;
+    let add_10 = |x: i32| x + num_ten;
+    println!("5 + 10 = {}", add_10(5));
+
+    // Ownership Error
+    // let vect1 = vec![1, 2, 3];
+    // let vect2 = vect1;
+    // println!("vect1[0] = {}", vect1[0]);
+
+    let prim_val = 1;
+    let prim_val2 = prim_val;
+    println!("prim_val: {}", prim_val);
+
+    let vect2 = vec![1, 2, 3];
+    println!("Sum of Vect : {}", sum_vects(&vect2));
+    println!("Vect : {:?}", vect2);
+
+    let mut circle1 = Circle {
+        x: 10.0,
+        y: 10.0,
+        radius: 10.0,
+    };
+
+    println!("X: {}, Y: {}, R: {}", circle1.x, circle1.y, circle1.radius);
+    println!("Circle Radius: {}", get_radius(&circle1));
+    println!("Circle X: {}", circle1.get_x());
+    println!("Circle Area: {}", circle1.area());
+
+    let mut rect1 = Rectangle {
+        height: 10.0,
+        width: 10.0,
+    };
+    println!("Rect Area: {}", rect1.area());
+
+    let hulk = Hero::Strong(100);
+    let quicksilver = Hero::Fast;
+    let spiderman = Hero::Info {
+        name: "Spiderman".to_owned(),
+        secret: "Peter Parker".to_owned(),
+    };
+
+    get_info(hulk);
+    get_info(quicksilver);
+    get_info(spiderman);
+}
+
+enum Hero {
+    Fast,
+    Strong(i32),
+    Info { name: String, secret: String },
+}
+
+fn get_info(h: Hero) {
+    match h {
+        Hero::Fast => println!("Fast!"),
+        Hero::Strong(i) => println!("Lifts {} tons", i),
+        Hero::Info { name, secret } => {
+            println!("{} is {}", name, secret);
+        }
+    }
+}
+
+struct Circle {
+    x: f64,
+    y: f64,
+    radius: f64,
+}
+
+fn get_radius(circle: &Circle) -> f64 {
+    circle.radius
+}
+
+impl Circle {
+    pub fn get_x(&self) -> f64 {
+        self.x
+    }
+}
+
+struct Rectangle {
+    height: f64,
+    width: f64,
+}
+
+trait HasArea {
+    fn area(&self) -> f64;
+}
+
+impl HasArea for Circle {
+    fn area(&self) -> f64 {
+        self.radius * self.radius * 3.14159
+    }
+}
+
+impl HasArea for Rectangle {
+    fn area(&self) -> f64 {
+        self.height * self.width
+    }
+}
+
+fn sum_vects(v1: &Vec<i32>) -> i32 {
+    let sum = v1.iter().fold(0, |mut sum, &x| {
+        sum += x;
+        sum
+    });
+    return sum;
+}
+
+fn say_hello(name: &str) {
+    println!("Hello {}", name);
+}
+
+fn get_sum(num1: i32, num2: i32) -> i32 {
+    num1 + num2
+    // return num1 + num2;
 }
