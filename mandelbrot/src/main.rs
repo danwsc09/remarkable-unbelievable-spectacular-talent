@@ -1,6 +1,10 @@
+extern crate image;
 extern crate num;
 
+use image::png::PNGEncoder;
+use image::ColorType;
 use num::Complex;
+use std::fs::File;
 use std::str::FromStr;
 
 fn main() {
@@ -19,6 +23,28 @@ fn main() {
     println!("num: {:?}", parse_complex("3.0,-0.625"));
 }
 
+/// Write the buffer `pixels`, whose dimensions are given by `bounds`, to the
+/// file named `filename`.
+fn write_image(
+    filename: &str,
+    pixels: &[u8],
+    bounds: (usize, usize),
+) -> std::io::Result<()> {
+// ) -> Result<(), std::io::Error> {
+    let output = File::create(filename)?;
+
+    let encoder = PNGEncoder::new(output);
+    encoder.encode(&pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8))?;
+
+    Ok(())
+}
+
+/// Render a rectrangle of the Mandelbrot set into a buffer of pixels.
+///
+/// The `bounds` argument gives the width and height of the buffer `pixels`,
+/// which holds one grayscale pixel per byte. The `upper_left` and `lower_right` arguments
+/// specify points on the complex plane corresponding to the upper-left and lower-right
+/// corners of the pixel buffer.
 fn render(
     pixels: &mut [u8],
     bounds: (usize, usize),
