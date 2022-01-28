@@ -135,6 +135,24 @@ fn test_pixel_to_point() {
         ),
         Complex { re: -0.5, im: -0.5 }
     );
+    assert_eq!(
+        pixel_to_point(
+            (100, 100),
+            (75, 50),
+            Complex { re: -1.0, im: 1.0 },
+            Complex { re: 1.0, im: -1.0 }
+        ),
+        Complex { re: 0.5, im: 0.0 }
+    );
+    assert_eq!(
+        pixel_to_point(
+            (100, 100),
+            (100, 100),
+            Complex { re: -1.0, im: 1.0 },
+            Complex { re: 1.0, im: -1.0 }
+        ),
+        Complex { re: 1 as f64, im: -1 as f64 }
+    );
 }
 
 fn parse_complex(s: &str) -> Option<Complex<f64>> {
