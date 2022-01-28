@@ -6,21 +6,35 @@ use image::ColorType;
 use num::Complex;
 use std::fs::File;
 use std::str::FromStr;
+use std::io::Write;
 
 fn main() {
-    let result: (i32, i32) = match parse_pair("400x600", 'x') {
-        Some(tuple) => tuple,
-        None => (0, 0),
-    };
-    println!("Parse pair: {:?}", result);
+    let args: Vec<String> = std::env::args().collect();
 
-    let mut vec = vec![1, 2, 3];
-    let int_slice = &mut vec[..];
-    int_slice[1] = 10;
-    // println!("vec: {:?}", vec);
-    println!("int_slice: {:?}", int_slice);
+    if args.len() != 5 {
+        writeln!(std::io::stderr(),
+            "Usage: mandelbrot FILE PIXELS UPPERLEFT LOWERRIGHT")
+            .unwrap();
+        writeln!(std::io::stderr(),
+            "Example: {} mandel.png 1000x750 -1.20,0.35 -1,0.20",
+            args[0])
+            .unwrap();
+        std::process::exit(1);
+    }
 
-    println!("num: {:?}", parse_complex("3.0,-0.625"));
+    let bounds = parse_pair(&args[2], 'x')
+        .expect("error parsing image dimensions");
+    let upper_left = parse_complex(&args[3])
+        .expect("error parsing upper left corner point");
+    let lower_right = parse_complex(&args[4])
+        .expect("error parsing lower right corner point");
+
+    let mut pixels = vec![0; bounds.0 * bounds.1];
+    
+    render(&mut pixels, bounds, upper_left, lower_right);
+
+    write_image(&args[1], &pixels, bounds)
+        .expect("Error writing PNG file!");
 }
 
 /// Write the buffer `pixels`, whose dimensions are given by `bounds`, to the
