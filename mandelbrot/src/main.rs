@@ -9,6 +9,17 @@ use std::fs::File;
 use std::str::FromStr;
 use std::io::Write;
 
+use image::{ImageBuffer, RgbImage};
+const WIDTH:u32 = 10;
+const HEIGHT:u32 = 10;
+
+fn main() {
+    let mut image: RgbImage = ImageBuffer::new(WIDTH, HEIGHT);
+    *image.get_pixel_mut(5, 5) = image::Rgb([255,255,255]);
+    image.save("output.png").unwrap();
+}
+
+/*
 fn main() {
     let args: Vec<String> = std::env::args().collect();
 
@@ -58,7 +69,7 @@ fn main() {
     write_image(&args[1], &pixels, bounds)
         .expect("Error writing PNG file!");
 }
-
+*/
 /// Write the buffer `pixels`, whose dimensions are given by `bounds`, to the
 /// file named `filename`.
 fn write_image(
