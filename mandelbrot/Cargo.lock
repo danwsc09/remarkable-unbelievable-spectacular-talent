@@ -39,6 +39,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3d7b894f5411737b7867f4827955924d7c254fc9f4d91a6aad6b097804b1018b"
 
 [[package]]
+name = "crossbeam"
+version = "0.2.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bd66663db5a988098a89599d4857919b3acf7f61402e61365acfd3919857b9be"
+
+[[package]]
 name = "crossbeam-channel"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -186,6 +192,7 @@ checksum = "7d947cbb889ed21c2a84be6ffbaebf5b4e0f4340638cba0444907e38b56be084"
 name = "mandelbrot"
 version = "0.1.0"
 dependencies = [
+ "crossbeam",
  "image",
  "num",
 ]
