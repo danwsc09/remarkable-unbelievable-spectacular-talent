@@ -36,28 +36,117 @@ fn main() {
 
     let mut v1: Vec<u8> = Vec::with_capacity(3);
     println!("vec: {:?}, cap: {}, len: {}", v1, v1.capacity(), v1.len());
-    v1.push(1);v1.push(2);v1.push(3);v1.push(4);v1.push(5);
+    v1.push(1);
+    v1.push(2);
+    v1.push(3);
+    v1.push(4);
+    v1.push(5);
     println!("vec: {:?}, cap: {}, len: {}", v1, v1.capacity(), v1.len());
-    
+
     let mut v2 = vec![1, 3, 5, 7, 9];
     println!("vec: {:?}, cap: {}, len: {}", v2, v2.capacity(), v2.len());
     v2.insert(3, 8);
     println!("vec: {:?}, cap: {}, len: {}", v2, v2.capacity(), v2.len());
     v2.remove(2);
     println!("vec: {:?}", v2);
-    v2.pop();v2.pop();v2.pop();v2.pop();//v2.pop();
+    v2.pop();
+    v2.pop();
+    v2.pop();
+    v2.pop(); //v2.pop();
     let a = v2.pop().expect("array was empty");
     println!("a: {}", a);
 
-    let mut laanguages: Vec<String> = std::env::args().skip(1).collect();
-    for l in laanguages {
-        println!("{} : {}", l,
-        if l.len() % 2 == 0 {
-            "functional"
-        } else {
-            "imperative"
+    let mut languages: Vec<String> = std::env::args().skip(1).collect();
+    println!("languages: {:?}", languages);
+    for l in languages {
+        println!(
+            "{} : {}",
+            l,
+            if l.len() % 2 == 0 {
+                "functional"
+            } else {
+                "imperative"
+            }
+        )
+    }
+
+    println!("===================");
+    const MAX_NUMS: usize = 500;
+    let mut sieve = [true; MAX_NUMS];
+    for i in 2..23 {
+        if sieve[i] {
+            let mut j = i + i;
+            while j < MAX_NUMS {
+                sieve[j] = false;
+                j += i;
+            }
         }
-    )};
+    }
+    for i in 2..MAX_NUMS {
+        if sieve[i] {
+            print!("{} ", i);
+        }
+    }
+    println!("");
+    println!("=========VEC==========");
+    let mut myV = vec![2, 3, 5, 7];
+    assert_eq!(myV.iter().fold(1, |a, b| a * b), 210);
+    assert_eq!(myV.iter().fold(0, |a, b| a + b), 17);
+    myV.push(11);
+    myV.push(13);
+    assert_eq!(myV.iter().fold(0, |a, b| a + b), 41);
+
+    let mut myV1 = Vec::new();
+    myV1.push("hello");
+    myV1.push("how");
+    myV1.push("are");
+    myV1.push("you");
+    assert_eq!(myV1, vec!["hello", "how", "are", "you"]);
+
+    let mut myV2: Vec<i32> = (0..5).collect();
+    assert_eq!(myV2, vec![0, 1, 2, 3, 4]);
+    println!("");
+    println!("=========SLICES==========");
+    let v1: Vec<f64> = vec![0.0, 0.707, -1.0, 0.707];
+    let a: [f64; 4] = [0.0, 0.707, -1.0, 0.707];
+
+    let sv = &v1;
+    let sa = &a;
+    print(sv);
+    print(sa);
+
+    println!("");
+    println!("=========STRINGS==========");
+    println!("-----String Literal-----");
+    let speech = "\"OUCH!\" said the well.\n";
+    let another_str = "hello,
+    said the man.";
+    let yet_another_str = "hello, \
+    said the man.";
+    println!("{}", speech);
+    println!("{}", another_str);
+    println!("{}", yet_another_str);
+    
+    let raw_string1 = r"Windows path: C:\Program Files\Gorillas";
+    let raw_string2 = r###"
+    This raw string started with 'r###"'. 
+    Therefore, it doesn't end until we reach a quote mark ('"')
+    followed immediately by three pound signs('###')."###;
+    println!("{}", raw_string1);
+    println!("{}", raw_string2);
+    
+    println!("");
+    println!("-----Byte Strings-----");
+    let method = b"GET";
+    println!("method: {:?}", method);
+    
+}
+
+fn print(arr: &[f64]) {
+    for elt in arr {
+        println!("{:?}", elt);
+    }
+    println!("==");
 }
 
 struct MyStruct {
