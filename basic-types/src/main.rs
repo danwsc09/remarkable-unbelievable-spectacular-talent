@@ -140,6 +140,21 @@ fn main() {
     let method = b"GET";
     println!("method: {:?}", method);
     
+    println!("-----More Strings-----");
+    let mut noodles = "noodles".to_string();
+    let oodles = &noodles[1..];
+    let poodles = "😃_😃";
+    println!("noodles:{}, oodles:{}, poodles:{}", noodles, oodles, poodles);
+    
+    println!("noodles.len(): {}", noodles.len());
+    println!("noodles.chars().count(): {}", noodles.chars().count());
+    println!("oodles.len(): {}", oodles.len());
+    println!("oodles.chars().count(): {}", oodles.chars().count());
+    println!("poodles.len(): {}", poodles.len());
+    println!("poodles.chars().count(): {}", poodles.chars().count());
+
+    noodles.pop();
+    println!("new noodles: {}", noodles);
 }
 
 fn print(arr: &[f64]) {
