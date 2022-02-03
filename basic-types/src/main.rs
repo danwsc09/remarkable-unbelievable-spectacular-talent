@@ -155,6 +155,7 @@ fn main() {
 
     noodles.pop();
     println!("new noodles: {}", noodles);
+    println!("-----String------");
 }
 
 fn print(arr: &[f64]) {
