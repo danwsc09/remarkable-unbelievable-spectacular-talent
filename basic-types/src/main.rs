@@ -155,7 +155,29 @@ fn main() {
 
     noodles.pop();
     println!("new noodles: {}", noodles);
+    
     println!("-----String------");
+    let my_str1 = "pewpew".to_string();
+    let my_slice1 = &my_str1[1..3];
+    println!("my str: {}, my slice: {}", my_str1, my_slice1);
+    let formated_str1 = format!("{}N{:02}E", 24, 5);
+    assert_eq!(formated_str1, "24N05E");
+
+    let str_vec = vec!["veni", "vidi", "vici"];
+    assert_eq!(str_vec.concat(), "venividivici");
+    assert_eq!(str_vec.join("_ "), "veni_ vidi_ vici");
+
+    let mut str_array =  [""; 5];
+    str_array[0] = "hello";
+
+    assert!("ONE".to_lowercase() == "one");
+    assert!("peanut".contains("nut"));
+    assert_eq!("a_a".replace("a", "b"), "b_b");
+    assert_eq!("  clean \n ".trim(), "clean");
+    
+    for word in "veni, vidi, vici".split(", ") {
+        assert!(word.starts_with("v"));
+    }
 }
 
 fn print(arr: &[f64]) {
