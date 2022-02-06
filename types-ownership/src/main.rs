@@ -126,7 +126,7 @@ fn main() {
     println!("{}", speech);
     println!("{}", another_str);
     println!("{}", yet_another_str);
-    
+
     let raw_string1 = r"Windows path: C:\Program Files\Gorillas";
     let raw_string2 = r###"
     This raw string started with 'r###"'. 
@@ -134,18 +134,21 @@ fn main() {
     followed immediately by three pound signs('###')."###;
     println!("{}", raw_string1);
     println!("{}", raw_string2);
-    
+
     println!("");
     println!("-----Byte Strings-----");
     let method = b"GET";
     println!("method: {:?}", method);
-    
+
     println!("-----More Strings-----");
     let mut noodles = "noodles".to_string();
     let oodles = &noodles[1..];
     let poodles = "😃_😃";
-    println!("noodles:{}, oodles:{}, poodles:{}", noodles, oodles, poodles);
-    
+    println!(
+        "noodles:{}, oodles:{}, poodles:{}",
+        noodles, oodles, poodles
+    );
+
     println!("noodles.len(): {}", noodles.len());
     println!("noodles.chars().count(): {}", noodles.chars().count());
     println!("oodles.len(): {}", oodles.len());
@@ -155,7 +158,7 @@ fn main() {
 
     noodles.pop();
     println!("new noodles: {}", noodles);
-    
+
     println!("-----String------");
     let my_str1 = "pewpew".to_string();
     let my_slice1 = &my_str1[1..3];
@@ -167,17 +170,114 @@ fn main() {
     assert_eq!(str_vec.concat(), "venividivici");
     assert_eq!(str_vec.join("_ "), "veni_ vidi_ vici");
 
-    let mut str_array =  [""; 5];
+    let mut str_array = [""; 5];
     str_array[0] = "hello";
 
     assert!("ONE".to_lowercase() == "one");
     assert!("peanut".contains("nut"));
     assert_eq!("a_a".replace("a", "b"), "b_b");
     assert_eq!("  clean \n ".trim(), "clean");
-    
+
     for word in "veni, vidi, vici".split(", ") {
         assert!(word.starts_with("v"));
     }
+
+    println!("==============================");
+    println!("==============================");
+    println!("========OWNERSHIP=======");
+    let my_nums = vec![1, 2, 3, 4];
+    // let sum = get_sum_move(my_nums);
+    // println!("can i access my_nums? {:?}", my_nums); // no
+
+    let sum = get_sum_borrow(&my_nums);
+    println!("sum: {}", sum);
+    println!("can i access my_nums? {:?}", my_nums); // yes
+
+    let box_result = make_box();
+    let replaced_result = box_result.replace("s", "z");
+    println!("replaced: {}", replaced_result);
+
+    let mut people = Vec::new();
+    people.push(Person {
+        birth: 1525,
+        name: "Palentina".to_string(),
+    });
+    people.push(Person {
+        birth: 1563,
+        name: "Dowland".to_string(),
+    });
+    people.push(Person {
+        birth: 1632,
+        name: "Lully".to_string(),
+    });
+
+    for person in &people {
+        println!("Name: {}, Birth Year: {}", person.name, person.birth);
+    }
+
+    println!("================================");
+    println!("===========MOVES==========");
+    let my_vector = vec!["hi", "hello", "bye"];
+    let my_vector1 = my_vector;
+    // let my_vector2 = my_vector; // error
+
+    let x = vec![10, 20, 30];
+    let res1 = rand::random::<bool>();
+    if res1 {
+        empty_fun1(x);
+    } else {
+        empty_fun2(x);
+    }
+
+    let mut my_v1 = Vec::new();
+    for i in 101..106 {
+        my_v1.push(i.to_string());
+    }
+    println!("my v1: {:?}", my_v1);
+    let third = &my_v1[2];
+    // let fifth = my_v1[4];
+    println!("third: {}", third);
+
+    // 1. pop off from end
+    let fifth = my_v1.pop().unwrap();
+    println!("fifth: {}", fifth);
+
+    // 2. Move a value out of the middle of vector, and move the last into its spot
+    let second = my_v1.swap_remove(1);
+    println!("second: {}, vector: {:?}", second, my_v1);
+
+    // 3. Swap in another value for the one we're taking out:
+    let third = std::mem::replace(&mut my_v1[2], "substitute".to_string());
+    println!("third: {}, vector: {:?}", third, my_v1);
+}
+
+/*  =============================================
+    ================End of main()================
+    =============================================
+*/
+
+fn empty_fun1(arr: Vec<i32>) {}
+fn empty_fun2(arr: Vec<i32>) {}
+
+fn make_box() -> Box<String> {
+    let mut my_str = "some string".to_string();
+    Box::new(my_str)
+}
+
+fn get_sum_borrow(arr: &Vec<i32>) -> i32 {
+    let mut total = 0;
+    for num in arr {
+        total += num;
+    }
+    total
+}
+
+fn get_sum_move(arr: Vec<i32>) -> i32 {
+    let mut total = 0;
+    for num in arr {
+        total += num;
+    }
+    total
 }
 
 fn print(arr: &[f64]) {
@@ -197,4 +297,9 @@ struct MyTupleStruct(String, i32);
 enum Attend {
     OnTime,
     Late(u32),
+}
+
+struct Person {
+    name: String,
+    birth: i32,
 }
