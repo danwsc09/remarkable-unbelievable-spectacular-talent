@@ -249,12 +249,41 @@ fn main() {
     // 3. Swap in another value for the one we're taking out:
     let third = std::mem::replace(&mut my_v1[2], "substitute".to_string());
     println!("third: {}, vector: {:?}", third, my_v1);
+
+    struct SomePerson {
+        name: Option<String>,
+        birth: i32
+    }
+
+    let mut people1 = Vec::new();
+    people1.push(SomePerson {birth: 1993, name: Some("Dan".to_string())});
+
+    // let the_name = people1[0].name.take();
+    let the_name = std::mem::replace(&mut people1[0].name, None);
+    // println!("the name: {}", the_name);
+    assert_eq!(the_name, Some("Dan".to_string()));
+    for person in &people1 {
+        println!("birth: {}, name: {:?}", person.birth, person.name);
+    }
+
+    let mut people2 = Vec::new();
+    people2.push(Person {birth: 1993, name: "Dan".to_string()});
+    let first_name = &mut people2[0].name;
+    first_name.push('d');
+
+    println!("============COPY TYPES============");
+    let l = Label {number: 3};
+    print_label(l);
+    println!("My label number is : {}", l.number);
 }
 
 /*  =============================================
-    ================End of main()================
-    =============================================
+================End of main()================
+=============================================
 */
+#[derive(Clone, Copy)]
+struct Label { number: i32 }
+fn print_label(l: Label) { println!("STAMP: {}", l.number); }
 
 fn empty_fun1(arr: Vec<i32>) {}
 fn empty_fun2(arr: Vec<i32>) {}
