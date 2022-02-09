@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 fn main() {
     println!("this is a byte: {}", b'*');
     println!("isize min: {}", isize::MIN);
@@ -275,6 +277,19 @@ fn main() {
     let l = Label {number: 3};
     print_label(l);
     println!("My label number is : {}", l.number);
+
+    println!("");
+    println!("========Reference Count========");
+    let rc_str: Rc<String> = Rc::new("abcdef".to_string());
+    let rc_str1 = rc_str.clone();
+    let rc_str2 = rc_str.clone();
+    let mut some_str: String = "abcdef".to_string();
+
+    println!("{} contains cd: {}", rc_str, rc_str.contains("cd"));
+    assert_eq!(rc_str1.find("de"), Some(3));
+    println!("{} is cloned.", rc_str2);
+    // rc_str.push_str("ghi");
+    some_str.push_str("ghi");
 }
 
 /*  =============================================
