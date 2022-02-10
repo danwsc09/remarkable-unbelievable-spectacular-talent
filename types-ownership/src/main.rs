@@ -254,11 +254,14 @@ fn main() {
 
     struct SomePerson {
         name: Option<String>,
-        birth: i32
+        birth: i32,
     }
 
     let mut people1 = Vec::new();
-    people1.push(SomePerson {birth: 1993, name: Some("Dan".to_string())});
+    people1.push(SomePerson {
+        birth: 1993,
+        name: Some("Dan".to_string()),
+    });
 
     // let the_name = people1[0].name.take();
     let the_name = std::mem::replace(&mut people1[0].name, None);
@@ -269,12 +272,15 @@ fn main() {
     }
 
     let mut people2 = Vec::new();
-    people2.push(Person {birth: 1993, name: "Dan".to_string()});
+    people2.push(Person {
+        birth: 1993,
+        name: "Dan".to_string(),
+    });
     let first_name = &mut people2[0].name;
     first_name.push('d');
 
     println!("============COPY TYPES============");
-    let l = Label {number: 3};
+    let l = Label { number: 3 };
     print_label(l);
     println!("My label number is : {}", l.number);
 
@@ -290,15 +296,81 @@ fn main() {
     println!("{} is cloned.", rc_str2);
     // rc_str.push_str("ghi");
     some_str.push_str("ghi");
+
+    println!("=======Pass by Value vs Reference=======");
+    let x = 10;
+    let r = &x;
+    assert!(*r == 10);
+
+    let mut y = 32;
+    let m = &mut y;
+    *m += 32;
+    assert!(*m == 64);
+    assert!(y == 64);
+
+    struct Anime { name: &'static str, bechdel_pass: bool };
+    let aria = Anime { name: "Aria: The Animation", bechdel_pass: true };
+    let anime_ref = &aria;
+    assert_eq!(anime_ref.name, "Aria: The Animation");
+    assert_eq!((*anime_ref).name, "Aria: The Animation");
+
+    let mut a_vec = vec![2002, 1993];
+    println!("{:?}", a_vec);
+    a_vec.sort();
+    // (&mut a_vec).sort();
+    println!("{:?}", a_vec);
+
+    let x = 10;
+    let y = 20;
+    let mut r = &x;
+    r = &y;
+    println!("r: {} should be 20", *r);
+
+    struct APoint {x: i32, y: i32};
+    let point = APoint {x: 10, y: 20};
+    let r = &point;
+    let rr = &r;
+    let rrr = &rr;
+    println!("x: {}", rrr.x);
+
+    let x = 10;
+    let y = 10;
+    let rx = &x;
+    let ry = &y;
+    let rrx = &rx;
+    let rry = &ry;
+    assert!(rrx == rry);
+    assert!(rrx <= rry);
+
+    assert!(!std::ptr::eq(rrx, rry));
+
+    let r = &factorial(6);
+    assert_eq!(r + &1009, 1729);
+
+    let r;
+    {
+        let x = 1;
+        r = &x;
+    }
+    assert_eq!(*r, 1);
 }
 
 /*  =============================================
 ================End of main()================
 =============================================
 */
+
+fn factorial(n: usize) -> usize {
+    (1..n+1).fold(1, |a, b| a * b)
+}
+
 #[derive(Clone, Copy)]
-struct Label { number: i32 }
-fn print_label(l: Label) { println!("STAMP: {}", l.number); }
+struct Label {
+    number: i32,
+}
+fn print_label(l: Label) {
+    println!("STAMP: {}", l.number);
+}
 
 fn empty_fun1(arr: Vec<i32>) {}
 fn empty_fun2(arr: Vec<i32>) {}
