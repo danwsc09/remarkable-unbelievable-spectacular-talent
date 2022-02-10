@@ -297,73 +297,13 @@ fn main() {
     // rc_str.push_str("ghi");
     some_str.push_str("ghi");
 
-    println!("=======Pass by Value vs Reference=======");
-    let x = 10;
-    let r = &x;
-    assert!(*r == 10);
-
-    let mut y = 32;
-    let m = &mut y;
-    *m += 32;
-    assert!(*m == 64);
-    assert!(y == 64);
-
-    struct Anime { name: &'static str, bechdel_pass: bool };
-    let aria = Anime { name: "Aria: The Animation", bechdel_pass: true };
-    let anime_ref = &aria;
-    assert_eq!(anime_ref.name, "Aria: The Animation");
-    assert_eq!((*anime_ref).name, "Aria: The Animation");
-
-    let mut a_vec = vec![2002, 1993];
-    println!("{:?}", a_vec);
-    a_vec.sort();
-    // (&mut a_vec).sort();
-    println!("{:?}", a_vec);
-
-    let x = 10;
-    let y = 20;
-    let mut r = &x;
-    r = &y;
-    println!("r: {} should be 20", *r);
-
-    struct APoint {x: i32, y: i32};
-    let point = APoint {x: 10, y: 20};
-    let r = &point;
-    let rr = &r;
-    let rrr = &rr;
-    println!("x: {}", rrr.x);
-
-    let x = 10;
-    let y = 10;
-    let rx = &x;
-    let ry = &y;
-    let rrx = &rx;
-    let rry = &ry;
-    assert!(rrx == rry);
-    assert!(rrx <= rry);
-
-    assert!(!std::ptr::eq(rrx, rry));
-
-    let r = &factorial(6);
-    assert_eq!(r + &1009, 1729);
-
-    let r;
-    {
-        let x = 1;
-        r = &x;
-    }
-    assert_eq!(*r, 1);
+    
 }
 
 /*  =============================================
 ================End of main()================
 =============================================
 */
-
-fn factorial(n: usize) -> usize {
-    (1..n+1).fold(1, |a, b| a * b)
-}
-
 #[derive(Clone, Copy)]
 struct Label {
     number: i32,
