@@ -54,9 +54,18 @@ fn main() {
 
     // single thread
     // render(&mut pixels, bounds, upper_left, lower_right);
-
-    write_image(&args[1], &pixels, bounds)
+    let mut blue_pixels: Vec<u8> = vec![0; pixels.len() * 3];
+    convert_to_blue(&mut blue_pixels, &pixels);
+    write_image(&args[1], &blue_pixels, bounds)
         .expect("Error writing PNG file!");
+}
+
+fn convert_to_blue(destination: &mut Vec<u8>, source: &Vec<u8>) {
+    for i in 0..source.len() {
+        destination[i * 3] = 255 - source[i];
+        destination[i * 3 + 1] = source[i];
+        destination[i * 3 + 2] = 255;
+    }
 }
 
 /// Write the buffer `pixels`, whose dimensions are given by `bounds`, to the
@@ -70,7 +79,7 @@ fn write_image(
     let output = File::create(filename)?;
 
     let encoder = PNGEncoder::new(output);
-    encoder.encode(&pixels, bounds.0 as u32, bounds.1 as u32, ColorType::Gray(8))?;
+    encoder.encode(&pixels, bounds.0 as u32, bounds.1 as u32, ColorType::RGB(8))?;
 
     Ok(())
 }
@@ -201,7 +210,7 @@ fn test_parse_pair() {
 /// If 'c' is not a member, return 'Some(i)', where `i` is the number of iterations it took for `c`
 /// to leave the circle of radius two centered on the origin.
 /// If `c` seems to be a member, return `None`.
-#[allow(dead_code)]
+// #[allow(dead_code)]
 fn escape_time(c: Complex<f64>, limit: u32) -> Option<u32> {
     let mut z = Complex { re: 0.0, im: 0.0 };
     for i in 0..limit {
