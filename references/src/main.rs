@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, i32};
 
 type Table = HashMap<String, Vec<String>>;
 
@@ -45,8 +45,14 @@ fn main() {
     assert!(*m == 64);
     assert!(y == 64);
 
-    struct Anime { name: &'static str, bechdel_pass: bool };
-    let aria = Anime { name: "Aria: The Animation", bechdel_pass: true };
+    struct Anime {
+        name: &'static str,
+        bechdel_pass: bool,
+    };
+    let aria = Anime {
+        name: "Aria: The Animation",
+        bechdel_pass: true,
+    };
     let anime_ref = &aria;
     assert_eq!(anime_ref.name, "Aria: The Animation");
     assert_eq!((*anime_ref).name, "Aria: The Animation");
@@ -63,8 +69,11 @@ fn main() {
     r = &y;
     println!("r: {} should be 20", *r);
 
-    struct APoint {x: i32, y: i32};
-    let point = APoint {x: 10, y: 20};
+    struct APoint {
+        x: i32,
+        y: i32,
+    };
+    let point = APoint { x: 10, y: 20 };
     let r = &point;
     let rr = &r;
     let rrr = &rr;
@@ -90,10 +99,68 @@ fn main() {
         r = &x;
     }
     // assert_eq!(*r, 1);
+
+    static mut STASH: &i32 = &128;
+    static WORTH_POINTING_AT: i32 = 100;
+    fn f(p: &'static i32) {
+        unsafe {
+            STASH = p;
+        }
+    }
+    f(&WORTH_POINTING_AT);
+
+    fn g<'a>(p: &'a i32) {}
+    let x = 10;
+    g(&x);
+    // f(&x);
+
+    {
+        let s;
+        let parabola = [9, 4, 1, 0, 1, 4, 9];
+        s = smallest(&parabola);
+        println!("s: {}", s);
+    }
+
+    struct S<'a> {
+        r: &'a i32,
+    }
+    let s;
+    {
+        let x = 10;
+        s = S { r: &x };
+        println!("s.r: {}", s.r);
+    }
+    // println!("s.r: {}", s.r);
+
+    // struct T {
+    //     s: S<'static>,
+    // }
+    // static x: i32 = 10;
+    // let t: T = T {s: S {r: &x}};
+    struct T<'a> {
+        s: S<'a>,
+    }
+    let x: i32 = 10;
+    let t: T = T { s: S { r: &x } };
+
+    struct Ss<'a, 'b> {
+        x: &'a i32,
+        y: &'b i32,
+    }
+    let x = 10;
+    let r;
+    {
+        let y = 20;
+        {
+            let s = Ss { x: &x, y: &y };
+            r = s.x;
+            println!("r: {}", r);
+        }
+    }
 }
 
 fn factorial(n: usize) -> usize {
-    (1..n+1).fold(1, |a, b| a * b)
+    (1..n + 1).fold(1, |a, b| a * b)
 }
 
 fn show(table: &Table) {
@@ -109,4 +176,17 @@ fn sort_works(table: &mut Table) {
     for (_artist, works) in table {
         works.sort_unstable()
     }
+}
+
+fn smallest<'a>(v: &'a [i32]) -> &'a i32 {
+    if v.len() == 0 {
+        return &0;
+    }
+    let mut min = &v[0];
+    for num in &v[1..] {
+        if *num < *min {
+            min = num;
+        }
+    }
+    min
 }
