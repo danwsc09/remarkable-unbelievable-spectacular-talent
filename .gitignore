@@ -1,3 +1,9 @@
 target
 *.pdb
 *.exe
+wasm_test
+
+# Added by cargo
+
+/target
+Cargo.lock
