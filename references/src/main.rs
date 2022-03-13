@@ -157,6 +157,20 @@ fn main() {
             println!("r: {}", r);
         }
     }
+
+    let mut x = 10;
+    let r1 = &x;
+    let r2 = &x;
+    x += 10;
+    let m = &mut x;
+    println!("x is {}", x);
+    // println!("r1 is {}", r1);
+
+    let mut y = 20;
+    let m1 = &mut y;
+    // let m2 = &mut y;
+    // let z = y;
+    *m1 += 10;
 }
 
 fn factorial(n: usize) -> usize {
