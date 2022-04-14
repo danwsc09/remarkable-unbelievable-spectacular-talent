@@ -13,23 +13,29 @@ pub struct Config {
 type MyResult<T> = Result<T, Box<dyn Error>>;
 
 pub fn run(config: Config) -> MyResult<()> {
-    // dbg!(&config);
-    let mut line_count = 1;
-    for filename in &config.files {
-        // let file = std::fs::File::open(filename)?;
+    for filename in config.files {
+        match open(&filename) {
+            Err(err) => eprintln!("Failed to open {}: {}", filename, err),
+            Ok(file) => {
+                let mut last_num = 0;
+                for (line_num, line_result) in file.lines().enumerate() {
+                    let line = line_result?;
 
-        // let content = std::fs::read_to_string(filename)?;
-        // let lines = content.split("\n");
-
-        // for line in lines {
-        //     // if line != "" {
-        //     println!("{:>6} {}", line_count, line);
-        //     line_count += 1;
-        //     // }
-        // }
-        // println!("{}", content);
-        println!("filename: {}", filename);
-        // println!("{}", content);
+                    if config.number_lines {
+                        println!("{:>6}\t{}", line_num + 1, line);
+                    } else if config.number_nonblank_lines {
+                        if !line.is_empty() {
+                            last_num += 1;
+                            println!("{:>6}\t{}", last_num, line);
+                        } else {
+                            println!();
+                        }
+                    } else {
+                        println!("{}", line);
+                    }
+                }
+            }
+        }
     }
     Ok(())
 }
